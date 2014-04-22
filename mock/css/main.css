@@ -13,68 +13,73 @@ body {
 .column-headers,
 .columns,
 .column-footers {
-	border-spacing: 8px 0;
-	display: table;
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	table-layout: fixed;
 	width: 100%;
+	float: left;
+	display: flex;
+}
+
+.column-headers .header,
+.columns .column,
+.column-footers .footer {
+	margin: 0 5px;
+	float: left;
+	flex: 1;
 }
 
 .column-headers .header {
+	margin-top: 10px;
 	border-radius: 5px 5px 0 0;
-	padding: 8px 8px 16px 16px;
-	border: 0 solid #bbbbbb;
-	border-width: 1px 0 0 1px;
-}
-
-.column-headers .header:last-child {
-	border-right-width: 1px;
+	padding: 10px;
+	border: 1px solid #bbbbbb;
+	border-bottom: 0;
 }
 
 .columns .column {
-	padding: 8px 8px 16px 16px;
+	padding: 5px 0;
 	border: 0 solid #bbbbbb;
-	border-left-width: 1px;
-	margin: 0;
-	padding: 0;
-	min-height: 300px
-}
-
-.columns .column:last-child {
-	border-right-width: 1px;
+	border-width: 0 1px;
+	min-height: 100%;
 }
 
 .column-footers .footer {
+	margin-bottom: 10px;
 	border-radius: 0 0 5px 5px;
-	padding: 8px 8px 16px 16px;
-	border: 0 solid #bbbbbb;
-	border-width: 0 0 1px 1px;
-}
-
-.column-footers .footer:last-child {
-	border-right-width: 1px;
+	padding: 10px;
+	border: 1px solid #bbbbbb;
+	border-top: 0;
 }
 
 .column:nth-child(1) .task {
-	border-color: #8C91FF;
+	border-left-color: #8C91FF;
 }
 
 .column:nth-child(2) .task {
-	border-color: #D378ED;
+	border-left-color: #D378ED;
 }
 
 .column:nth-child(3) .task {
-	border-color: #FF8EA1;
+	border-left-color: #FF8EA1;
 }
 
 .column:nth-child(4) .task {
-	border-color: #FFBA77;
+	border-left-color: #FFBA77;
 }
 
 .column:nth-child(5) .task {
-	border-color: #FFE88E;
+	border-left-color: #FFE88E;
+}
+
+.departament {
+	border: 0 !important;
+}
+
+.column.departament {
+	text-align: right;
+	font-size: 1.3em;
+	margin: auto 5px;
 }
 
 .tasks {
@@ -82,11 +87,26 @@ body {
 }
 
 .task {
-	padding: 10px;
 	border: 1px solid #bbb;
-	box-shadow: 0 0 10px #000 inset;
 	border-left: 5px solid;
-	margin: 10px 0;
+	margin-bottom: 5px;
+	margin: 5px;
+}
+
+.task:first-child {
+	margin-top: 0;
+}
+
+.task:last-child {
+	margin-bottom: 0;
+}
+
+.subtask {
+	margin-left: 15px;
+}
+
+.task {
+	transition: box-shadow 0.5s;
 }
 
 .task h3 {
@@ -94,8 +114,32 @@ body {
 	white-space: nowrap;
   	text-overflow: ellipsis;
   	overflow: hidden;
+  	padding: 0.4em;
+  	margin: 0;
+  	font-size: 1.25em;
+}
+
+.task.active {
+	box-shadow: 0 0 10px rgba(0,0,0,0.5) inset;
+}
+
+.task .dep {
+	font-size: 0.8em;
+	padding: 0.4em;
+	background: #bbb;
+	font-style: italic;
+	border-bottom: 1px dashed #fff;
+}
+
+.task .desc {
+	padding: 0.4em;
+	max-height: 7em;
+	overflow: hidden;
+	font-size: 0.8em;
 }
 
 .row-spacer {
 	border-top: 1px dashed #bbb;
+	float: left;
+	width: 100%;
 }

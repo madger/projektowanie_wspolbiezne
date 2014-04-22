@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Firefly</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>Projektowanie współbieżne</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/jquery-latest.min.js"></script>
@@ -9,77 +10,124 @@
 </head>
 <body>
 
-<div class="main">
-	<ul class="column-headers container">
-		<li class="col-md-3 header">Name 1</li>
-		<li class="col-md-3 header">Name 1</li>
-		<li class="col-md-3 header">Name 1</li>
-		<li class="col-md-3 header">Name 1</li>
+<div class="container">
+	<ul class="column-headers">
+		<li class="header departament"></li>
+		<li class="header">Oczekujące<div class="btn btn-default btn-sm btn-block" data-col="1">Pokaż/Ukryj</div></li>
+		<li class="header">Nowe<div class="btn btn-default btn-sm btn-block" data-col="2">Pokaż/Ukryj</div></li>
+		<li class="header">W trakcie wykonywania<div class="btn btn-default btn-sm btn-block" data-col="3">Pokaż/Ukryj</div></li>
+		<li class="header">Do weryfikacji<div class="btn btn-default btn-sm btn-block" data-col="4">Pokaż/Ukryj</div></li>
+		<li class="header">Wykonane<div class="btn btn-default btn-sm btn-block" data-col="5">Pokaż/Ukryj</div></li>
 	</ul>
 	<div class="row-spacer"></div>
-	<ul class="columns container">
-		<li class="col-md-3 column">
+	<ul class="columns row-1">
+		<li class="column departament">Dział projektów<div class="btn btn-default btn-sm btn-block" data-row="1">Pokaż/Ukryj</div></li>
+		<li class="column col-1"><ul class="tasks"></ul></li>
+		<li class="column col-2"><ul class="tasks"></ul></li>
+		<li class="column col-3"><ul class="tasks"></ul></li>
+		<li class="column col-4">
 			<ul class="tasks">
 				<li class="task">
-					<h3>Task title 1</h3>
-					<div>Lorem ipsum<div>
-				</li>
-				<li class="task">
-					<h3>Task title 2</h3>
-					<div>Lorem ipsum<div>
+					<h3>Zadanie 2</h3>
+					<div class="dep">Zależy od: Zad. 1</div>
+					<div class="desc">Zaprojektowanie linii produkcyjnej</div>
 				</li>
 			</ul>
 		</li>
-		<li class="col-md-3 column">
-		</li>
-		<li class="col-md-3 column">
-		</li>
-		<li class="col-md-3 column">
-		</li>
-	</ul>
-	<div class="row-spacer"></div>
-	<ul class="columns container">
-		<li class="col-md-3 column">
-		</li>
-		<li class="col-md-3 column">
-		</li>
-		<li class="col-md-3 column">
-		</li>
-		<li class="col-md-3 column">
+		<li class="column col-5">
 			<ul class="tasks">
 				<li class="task">
-					<h3>Task title 4</h3>
-					<div>Lorem ipsum<div>
+					<h3>Zadanie 1</h3>
+					<div class="dep">Podzadania: Podz. 1, Podz. 2</div>
+					<div class="desc">Zaprojektowanie kubka<div>
 				</li>
-				<li class="task">
-					<h3>Task title 5</h3>
-					<div>Lorem ipsum<div>
+				<li class="task subtask">
+					<h3>Podzadanie 1.1</h3>
+					<div class="dep">Zadanie gł.: Zad. 1</div>
+					<div class="desc">Zaprojektowanie obudowy<div>
+				</li>
+				<li class="task subtask">
+					<h3>Podzadanie 1.2</h3>
+					<div class="dep">Zadanie gł.: Zad. 1</div>
+					<div class="desc">Zaprojektowanie uchwytu<div>
 				</li>
 			</ul>
 		</li>
 	</ul>
-	<ul class="columns container">
-		<li class="col-md-3 column">
-		</li>
-		<li class="col-md-3 column">
-		</li>
-		<li class="col-md-3 column">
+	<div class="row-spacer"></div>
+	<ul class="columns row-2">
+		<li class="column departament">Dział wdrażania<div class="btn btn-default btn-sm btn-block" data-row="2">Pokaż/Ukryj</div></li>
+		<li class="column col-1"><ul class="tasks"></ul></li>
+		<li class="column col-2"><ul class="tasks"></ul></li>
+		<li class="column col-3">
 			<ul class="tasks">
 				<li class="task">
-					<h3>Task title 6</h3>
-					<div>Lorem ipsum<div>
+					<h3>Zadanie 3</h3>
+					<div class="dep">Zależy od: Zad. 2</div>
+					<div class="desc">Wdrożenie linii produkcyjnej</div>
 				</li>
 			</ul>
 		</li>
-		<li class="col-md-3 column">
-		</li>
+		<li class="column col-4"><ul class="tasks"></ul></li>
+		<li class="column col-5"><ul class="tasks"></ul></li>
 	</ul>
 	<div class="row-spacer"></div>
-	<ul class="column-footers container">
-		<li class="col-md-3 footer"></li>
-		<li class="col-md-3 footer"></li>
-		<li class="col-md-3 footer"></li>
-		<li class="col-md-3 footer"></li>
+	<ul class="columns row-3">
+		<li class="column departament">Dział produkcji<div class="btn btn-default btn-sm btn-block" data-row="3">Pokaż/Ukryj</div></li>
+		<li class="column col-1">
+			<ul class="tasks">
+				<li class="task">
+					<h3>Zadanie 4</h3>
+					<div class="dep">Zależy od: Zad. 3</div>
+					<div class="desc">Produkcja kubka</div>
+				</li>
+				<li class="task subtask">
+					<h3>Podzadanie 3.1</h3>
+					<div class="dep">Zadanie gł.: Zad. 3</div>
+					<div class="desc">Produkcja obudowy<div>
+				</li>
+				<li class="task subtask">
+					<h3>Podzadanie 3.2</h3>
+					<div class="dep">Zadanie gł.: Zad. 3<br>Zależy od: Podzad. 3.1</div>
+					<div class="desc">Produkcja i przytwierdzenie dna<div>
+				</li>
+				<li class="task subtask">
+					<h3>Podzadanie 3.3</h3>
+					<div class="dep">Zadanie gł.: Zad. 3<br>Zależy od.: Podzad. 3.1</div>
+					<div class="desc">Produkcja i przytwierdzenie uchwytu<div>
+				</li>
+			</ul>
+		</li>
+		<li class="column col-2"><ul class="tasks"></ul></li>
+		<li class="column col-3"><ul class="tasks"></ul></li>
+		<li class="column col-4"><ul class="tasks"></ul></li>
+		<li class="column col-5"><ul class="tasks"></ul></li>
+	</ul>
+	<div class="row-spacer"></div>
+	<ul class="columns row-4">
+		<li class="column departament">Dział testów<div class="btn btn-default btn-sm btn-block" data-row="4">Pokaż/Ukryj</div></li>
+		<li class="column col-1">
+			<ul class="tasks">
+				<li class="task">
+					<h3>Zadanie 5</h3>
+					<div class="dep">Zależy od: Zad. 4</div>
+					<div class="desc">Przetestowanie produktu</div>
+				</li>
+			</ul>
+		</li>
+		<li class="column col-2"><ul class="tasks"></ul></li>
+		<li class="column col-3"><ul class="tasks"></ul></li>
+		<li class="column col-4"><ul class="tasks"></ul></li>
+		<li class="column col-5"><ul class="tasks"></ul></li>
+	</ul>
+	<div class="row-spacer"></div>
+	<ul class="column-footers">
+		<li class="footer departament"></li>
+		<li class="footer"></li>
+		<li class="footer"></li>
+		<li class="footer"></li>
+		<li class="footer"></li>
+		<li class="footer"></li>
 	</ul>
 </div>
 
@@ -88,14 +136,42 @@
 $(document).ready(function() {
 
 	var task;
+
+	$('.task').hide().slideDown('slow');
+
+	$('.header .btn').on('click', function(e){
+		$('.col-' + $(e.currentTarget).attr('data-col') + ' .task').slideToggle('slow');
+		$('.active').removeClass('active').removeClass('first-click');
+		task = null;
+	});
+
+	$('.column.departament .btn').on('click', function(e){
+		$('.row-' + $(e.currentTarget).attr('data-row') + ' .task').slideToggle('slow');
+		$('.active').removeClass('active').removeClass('first-click');
+		task = null;
+	});
     
 	$('.task').on('click', function(e){
-		task = $(e.currentTarget);
+		if($(e.currentTarget).hasClass('active')){
+			$(e.currentTarget).removeClass('active').removeClass('first-click');
+			task = null;
+		} else {
+			$('.active').removeClass('active').removeClass('first-click');
+			$(e.currentTarget).addClass('active').addClass('first-click');
+			task = $(e.currentTarget);
+		}
 	});
 
 	$('.column').on('click', function(e){
 		if(task){
-			$(e.currentTarget).append(task);
+			if(!task.hasClass('first-click')){
+				task.slideUp('slow', function(){
+					$(e.currentTarget).find('.tasks').append(task);
+					task.slideDown('slow');
+				});
+			} else {
+				task.removeClass('first-click');
+			}
 		}
 	});
 
