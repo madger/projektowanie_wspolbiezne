@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Firefly</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/jquery-latest.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="main">
+	<ul class="column-headers container">
+		<li class="col-md-3 header">Name 1</li>
+		<li class="col-md-3 header">Name 1</li>
+		<li class="col-md-3 header">Name 1</li>
+		<li class="col-md-3 header">Name 1</li>
+	</ul>
+	<div class="row-spacer"></div>
+	<ul class="columns container">
+		<li class="col-md-3 column">
+			<ul class="tasks">
+				<li class="task">
+					<h3>Task title 1</h3>
+					<div>Lorem ipsum<div>
+				</li>
+				<li class="task">
+					<h3>Task title 2</h3>
+					<div>Lorem ipsum<div>
+				</li>
+			</ul>
+		</li>
+		<li class="col-md-3 column">
+		</li>
+		<li class="col-md-3 column">
+		</li>
+		<li class="col-md-3 column">
+		</li>
+	</ul>
+	<div class="row-spacer"></div>
+	<ul class="columns container">
+		<li class="col-md-3 column">
+		</li>
+		<li class="col-md-3 column">
+		</li>
+		<li class="col-md-3 column">
+		</li>
+		<li class="col-md-3 column">
+			<ul class="tasks">
+				<li class="task">
+					<h3>Task title 4</h3>
+					<div>Lorem ipsum<div>
+				</li>
+				<li class="task">
+					<h3>Task title 5</h3>
+					<div>Lorem ipsum<div>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<ul class="columns container">
+		<li class="col-md-3 column">
+		</li>
+		<li class="col-md-3 column">
+		</li>
+		<li class="col-md-3 column">
+			<ul class="tasks">
+				<li class="task">
+					<h3>Task title 6</h3>
+					<div>Lorem ipsum<div>
+				</li>
+			</ul>
+		</li>
+		<li class="col-md-3 column">
+		</li>
+	</ul>
+	<div class="row-spacer"></div>
+	<ul class="column-footers container">
+		<li class="col-md-3 footer"></li>
+		<li class="col-md-3 footer"></li>
+		<li class="col-md-3 footer"></li>
+		<li class="col-md-3 footer"></li>
+	</ul>
+</div>
+
+<script>
+
+$(document).ready(function() {
+
+	var task;
+    
+	$('.task').on('click', function(e){
+		task = $(e.currentTarget);
+	});
+
+	$('.column').on('click', function(e){
+		if(task){
+			$(e.currentTarget).append(task);
+		}
+	});
+
+});
+
+</script>
+
+</body>
+</html>
