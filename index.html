@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Projektowanie współbieżne</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/jquery-latest.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/backbone-min.js"></script>
+</head>
+<body>
+
+<div class="container">
+	<h2 class="title"><span class="glyphicon glyphicon-cog"></span> Projektowanie współbieżne - Proces produkcji kubka <span class="authors">Maciej Świątek | Magdalena Stygar</span></h2>
+	<div class="page">
+	</div>
+</div>
+
+<script type="text/template" id="login-template">
+	<div class="panel panel-default login-panel">
+		<div class="panel-heading">Panel logowania</div>
+		<div class="panel-body">
+			<form role="form">
+				<div class="form-group">
+					<label for="user-login">Login</label>
+					<input name="username" type="text" class="form-control" id="user-login" min="3" placeholder="Login">
+				</div>
+				<div class="form-group">
+					<label for="user-password">Hasło</label>
+					<input name="password" type="password" class="form-control" id="user-password" min="3" placeholder="Hasło">
+				</div>
+				<button type="submit" class="btn btn-default">Zaloguj</button>
+			</form>
+		</div>
+	</div>
+</script>
+
+<script type="text/template" id="dashboard-template">
+	<a href="#" class="add-task">Dodaj zadanie</a>
+	<div class="logged">Witaj. Jesteś zalogowany jako <%= currentUser.first_name %> <%= currentUser.last_name %></div>
+	<div class="filters-desc clearfix">Szybkie filtry:</div>
+		<ul class="filters">
+			<li class="filter-col btn btn-default btn-sm" data-col="1">Zadania oczekujące</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="2">Nowe zadania</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="3">Zadania w trakcie wykonywania</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="4">Zadania do weryfikacji</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="5">Wykonane zadania</li>
+			<br>
+			<% _.each(departaments, function(departament) { %>
+				<li class="filter-row btn btn-default btn-sm" data-row="<%= departament.id %>"><%= departament.name %></li>
+			<% }); %>
+		</ul>
+		<ul class="column-headers">
+			<li class="header col-1">Zadania oczekujące <span class="clearfix task-amount"></span></li>
+			<li class="header col-2">Nowe zadania <span class="clearfix task-amount"></span></li>
+			<li class="header col-3">Zadania w trakcie wykonywania <span class="clearfix task-amount"></span></li>
+			<li class="header col-4">Zadania do weryfikacji <span class="clearfix task-amount"></span></li>
+			<li class="header col-5">Wykonane zadania <span class="clearfix task-amount"></span></li>
+		</ul>
+		<% _.each(departaments, function(departament) { %>
+		<div class="departament-row row-<%= departament.id %>" data-id="<%= departament.id %>">
+			<div class="departament"><span data-row="<%= departament.id %>" class="glyphicon glyphicon-chevron-up"></span> <%= departament.name %> <span class="task-amount"></span></div>
+			<ul class="columns">
+				<li class="column col-1" data-id="1"><ul class="tasks"></ul></li>
+				<li class="column col-2" data-id="2"><ul class="tasks"></ul></li>
+				<li class="column col-3" data-id="3"><ul class="tasks"></ul></li>
+				<li class="column col-4" data-id="4"><ul class="tasks"></ul></li>
+				<li class="column col-5" data-id="5"><ul class="tasks"></ul></li>
+			</ul>
+		</div>
+		<% }); %>
+		<div class="departament-row">
+			<ul class="column-footers">
+				<li class="footer col-1"></li>
+				<li class="footer col-2"></li>
+				<li class="footer col-3"></li>
+				<li class="footer col-4"></li>
+				<li class="footer col-5"></li>
+			</ul>
+		</div>
+</script>
+
+<script type="text/template" id="task-template">
+	<% if(task.user_id == currentUser.id) { %>
+		<li class="task <% if(task.main.length) { %> subtask <% } %> <% if(task.subtasks.length) { %> main-task <% } %>" data-id="<%= task.id %>">
+			<h3><%= task.name %></h3>
+			<div class="dep">Przypisany użytkownik: <%= currentUser.first_name %> <%= currentUser.last_name %></div>
+			<% if(task.dependents.length){ %>
+				<div class="dep">Zależy od: 
+				<% $.each(task.dependents, function(index, dependent) { %>
+					<%= dependent.name %><% if(task.dependents[index+1]) { %>, <% } %>
+				<% }); %>
+				</div>
+			<% } %>
+			<% if(task.main.length){ %>
+				<div class="dep">Zadanie główne: <%= task.main[0].name %></div>
+			<% } %>
+			<% if(task.subtasks.length){ %>
+				<div class="dep">Podzadania: 
+				<% $.each(task.subtasks, function(index, subtask) { %>
+					<%= subtask.name %><% if(task.subtasks[index+1]) { %>, <% } %>
+				<% }); %>
+				</div>
+			<% } %>
+			<div class="desc"><%= task.description %><div>
+		</li>
+	<% } %>
+</script>
+
+
+
+
+<script type="text/template" id="add-task-template">
+<form class ="form-group">
+	<legend>Dodawanie nowego zadania</legend>
+	<div class="form-group">
+		<label for="task-name">Temat: </label>
+		<input class="form-control" name="name" type="text" id="task-name" min="10">
+	</div>
+	<div class="form-group">
+		<label for="task-user">Użytkownik: </label>
+		<select class="form-control" name="user_id" id="task-user">
+		<% $.each(users, function(index, user) { %>
+			<option value="<%= user.id %>"><%= user.first_name %> <%= user.last_name %></option>
+		<% }); %>
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="task-department">Dział projektowy: </label>
+		<select class="form-control" name="departament_id" id="task-department">
+		<% $.each(departaments, function(index, departament) { %>
+			<option value="<%= departament.id %>"><%= departament.name %></option>
+		<% }); %>
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="task-description">Opis zadania: </label>
+		<textarea name="description" id="task-description" class="form-control" rows="4" cols="50"></textarea>
+	</div>
+	<button type="submit" class="btn btn-primary">Utwórz</button>
+</form>
+</script>
+
+<script>
+
+	var currentUser, task, columns;
+
+	$.fn.serializeObject = function() {
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name] !== undefined) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+	var LoginView = Backbone.View.extend({
+			el: '.page',
+
+			events: {
+        		'submit form': 'login'
+      		},
+
+	    	login: function (e) {
+	    		e.preventDefault();
+	    		var data = $(e.currentTarget).serializeObject();
+	    		data.request = "login"
+	    		$.ajax({
+					url: "dataHandler.php",
+					type: "post",
+					data: data
+				})
+				.done(function(response) {
+					console.log(response);
+					if(response){
+						currentUser = $.parseJSON(response);
+						router.navigate('dashboard', {trigger:true});
+					}
+  				});
+			},
+
+			render: function() {
+				var template = _.template($('#login-template').html());
+				this.$el.html(template);
+			}
+		}),
+		DashboardView = Backbone.View.extend({
+			el: '.page',
+
+			events: {
+				'click .departament': 'toggleDepartament',
+				'click .filter-col': 'filterColumn',
+				'click .filter-row': 'filterRow',
+				'click .task:not(.main-task)': 'selectTask',
+				'click .column': 'moveTask',
+				'click .add-task': 'goToAddTask'
+      		},
+
+			render: function() {
+				var me = this,
+					data = {request: "getDepartaments"},
+					departaments = {},
+					tasks = {};
+				$.ajax({
+					url: "dataHandler.php",
+					type: "post",
+					data: data
+				})
+				.done(function(response) {
+					if(response){
+						departaments = $.parseJSON(response);
+					}
+					data = {request: "getTasks"}
+					$.ajax({
+						url: "dataHandler.php",
+						type: "post",
+						data: data
+					})
+					.done(function(response) {
+						if(response){
+							tasks = $.parseJSON(response);
+						}
+						var template = _.template($('#dashboard-template').html(), {departaments: departaments});
+						me.$el.html(template);
+						$.each(tasks, function(index, task){
+							template = _.template($('#task-template').html(), {task: task});
+							me.$el.find('.departament-row[data-id=' + task.departament_id + '] .column[data-id=' + task.status + '] .tasks').append(template);
+						});
+
+						me.$el.find('.task').hide().slideDown('slow');
+						columns = me.$el.find('.header').length;
+						me.computeTaskAmount();
+
+						setInterval(function() {
+							me.updateTasks();
+						}, 3000);
+						
+	  				});
+  				});
+			},
+
+			toggleDepartament: function(e) {
+				var me = this,
+					target = $(e.currentTarget).find('.glyphicon');
+				me.$el.find('.row-' + $(target).attr('data-row') + ' .task').slideToggle('slow');
+				me.$el.find('.active').removeClass('active').removeClass('first-click');
+				me.$el.find(target).toggleClass('activated');
+				task = null;
+			},
+
+			filterColumn: function(e) {
+				var me = this,
+					element = me.$el.find('.col-' + $(e.currentTarget).attr('data-col'));
+				if(element.is(":visible")) {
+					if(columns > 1){
+						element.fadeToggle('fast');
+						task = null;
+						columns--;
+					}
+				} else {
+					element.fadeToggle('fast');
+					columns++;
+				}
+			},
+
+			filterRow: function(e) {
+				var me = this;
+				me.$el.find('.departament-row.row-' + $(e.currentTarget).attr('data-row') + ' .departament').click();
+			},
+
+			selectTask: function(e) {
+				var me = this;
+				if($(e.currentTarget).hasClass('active')){
+					$(e.currentTarget).removeClass('active').removeClass('first-click');
+					task = null;
+				} else {
+					me.$el.find('.active').removeClass('active').removeClass('first-click');
+					$(e.currentTarget).addClass('active').addClass('first-click');
+					task = $(e.currentTarget);
+				}
+			},
+
+			moveTask: function(e) {
+				var me = this;
+				if(task){
+					if(!task.hasClass('first-click')){
+						task.slideUp('slow', function(){
+							var data = {request: "updateTaskStatus", id: task.attr('data-id'), status: $(e.currentTarget).attr('data-id')};
+							$.ajax({
+								url: "dataHandler.php",
+								type: "post",
+								data: data
+							})
+							.done(function(response) {
+								$(e.currentTarget).find('.tasks').append(task);
+								task.slideDown('slow');
+								task.removeClass('active');
+								task = null;
+								me.updateTasks();
+			  				});
+						});
+					} else {
+						task.removeClass('first-click');
+					}
+				}
+			},
+
+			updateTasks: function() {
+				var me = this,
+					tasks = {},
+					data = {request: "getTasks"};
+
+				$.ajax({
+					url: "dataHandler.php",
+					type: "post",
+					data: data
+				})
+				.done(function(response) {
+					if(response){
+						tasks = $.parseJSON(response);
+						$.each(tasks, function(index, task){
+							var old = me.$el.find('.task[data-id=' + task.id + ']');
+							if(old){
+								var id = old.attr('data-id'),
+									departament_id = old.parent().parent().parent().parent().attr('data-id'),
+									status = old.parent().parent().attr('data-id');
+								if(task.id != id || task.departament_id != departament_id || task.status != status) {
+									old.slideUp('slow', function(){
+										me.$el.find('.departament-row[data-id=' + task.departament_id + '] .column[data-id=' + task.status + '] .tasks').append(old);
+										old.hide().slideDown('slow');
+									});
+								}
+							} else {
+								var template = _.template($('#task-template').html(), {task: task});
+								me.$el.find('.departament-row[data-id=' + task.departament_id + '] .column[data-id=' + task.status + '] .tasks').append(template);
+								template.hide().slideDown('slow');
+							}
+						});
+					}
+					me.computeTaskAmount();
+	  			});
+			},
+			
+			goToAddTask: function(e) {
+				e.preventDefault();
+				router.navigate('addTask', {trigger:true});
+			},
+
+			computeTaskAmount: function() {
+				var me = this;
+				$.each(me.$el.find('.departament-row'), function(index, object) {
+					var tasks = $(object).find('.task').length;
+					$(object).find('.departament .task-amount').html('('+ tasks + me.getTasksString(tasks) +')');
+				});
+
+				$.each(me.$el.find('.column-headers .header'), function(index, object) {
+					var tasks = $('.col-' + (index + 1) +' .task').length;
+					$(object).find('.task-amount').html('('+ tasks + me.getTasksString(tasks) +')');
+				});
+			},
+
+			getTasksString: function(amount){
+				switch(amount){
+					default: return ' zadań';
+					case 1: return ' zadanie';
+					case 2:
+					case 3:
+					case 4: return ' zadania';
+				}
+			}
+		}),
+		AddTaskView = Backbone.View.extend({
+			el: '.page',
+
+			events: {
+        		'submit form': 'addTask'
+      		},
+
+			addTask: function (e) {
+	    		e.preventDefault();
+	    		var data = $(e.currentTarget).serializeObject();
+	    		console.log(data);
+	    		data.request = "addTask"
+	    		$.ajax({
+					url: "dataHandler.php",
+					type: "post",
+					data: data
+				})
+				.done(function(response) {
+					console.log(response);
+  				});
+			},
+
+			render: function() {
+				var me = this,
+					departaments = {},
+					users = {},
+					data = {request: "getDepartaments"};
+
+				$.ajax({
+					url: "dataHandler.php",
+					type: "post",
+					data: data
+				})
+				.done(function(response) {
+					if(response){
+						departaments = $.parseJSON(response);
+						data = {request: "getUsers"};
+						$.ajax({
+							url: "dataHandler.php",
+							type: "post",
+							data: data
+						})
+						.done(function(response) {
+							if(response){
+								users = $.parseJSON(response);
+								var template = _.template($('#add-task-template').html(), {departaments: departaments, users: users});
+								me.$el.html(template);
+							}
+						});
+					}
+				});
+			}
+		});
+
+	var Router = Backbone.Router.extend({
+		routes: {
+			'': 'login',
+			'dashboard': 'dashboard',
+			'addTask': 'addTask'
+		}
+	});
+
+	var loginView = new LoginView(),
+		dashboardView = new DashboardView(),
+		addTaskView = new AddTaskView();
+
+	var router = new Router();
+	router.on('route:login', function() {
+		loginView.render();
+	});
+	router.on('route:dashboard', function() {
+		if(currentUser){
+			dashboardView.render();
+		} else {
+			router.navigate('', {trigger:true});
+		}
+	});
+	router.on('route:addTask', function() {
+		//if(currentUser){
+			addTaskView.render();
+		/*} else {
+			router.navigate('', {trigger:true});
+		}*/
+	});
+
+	Backbone.history.start();
+
+</script>
+
+</body>
+</html>

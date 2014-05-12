@@ -7,147 +7,247 @@
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/jquery-latest.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/backbone-min.js"></script>
 </head>
 <body>
 
 <div class="container">
-	<ul class="column-headers">
-		<li class="header departament"></li>
-		<li class="header">Oczekujące<div class="btn btn-default btn-sm btn-block" data-col="1">Pokaż/Ukryj</div></li>
-		<li class="header">Nowe<div class="btn btn-default btn-sm btn-block" data-col="2">Pokaż/Ukryj</div></li>
-		<li class="header">W trakcie wykonywania<div class="btn btn-default btn-sm btn-block" data-col="3">Pokaż/Ukryj</div></li>
-		<li class="header">Do weryfikacji<div class="btn btn-default btn-sm btn-block" data-col="4">Pokaż/Ukryj</div></li>
-		<li class="header">Wykonane<div class="btn btn-default btn-sm btn-block" data-col="5">Pokaż/Ukryj</div></li>
-	</ul>
-	<div class="row-spacer"></div>
-	<ul class="columns row-1">
-		<li class="column departament">Dział projektów<div class="btn btn-default btn-sm btn-block" data-row="1">Pokaż/Ukryj</div></li>
-		<li class="column col-1"><ul class="tasks"></ul></li>
-		<li class="column col-2"><ul class="tasks"></ul></li>
-		<li class="column col-3"><ul class="tasks"></ul></li>
-		<li class="column col-4">
-			<ul class="tasks">
-				<li class="task">
-					<h3>Zadanie 2</h3>
-					<div class="dep">Zależy od: Zad. 1</div>
-					<div class="desc">Zaprojektowanie linii produkcyjnej</div>
+	<h2 class="title"><span class="glyphicon glyphicon-cog"></span> Projektowanie współbieżne - Proces produkcji kubka <span class="authors">Maciej Świątek | Magdalena Stygar</span></h2>
+	<div class="page">
+		<div class="filters-desc clearfix">Szybkie filtry:</div>
+		<ul class="filters">
+			<li class="filter-col btn btn-default btn-sm" data-col="1">Zadania oczekujące</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="2">Nowe zadania</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="3">Zadania w trakcie wykonywania</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="4">Zadania do weryfikacji</li>
+			<li class="filter-col btn btn-default btn-sm" data-col="5">Wykonane zadania</li>
+			<br>
+			<li class="filter-row btn btn-default btn-sm" data-row="1">Dział projektów</li>
+			<li class="filter-row btn btn-default btn-sm" data-row="2">Dział wdrożeń</li>
+			<li class="filter-row btn btn-default btn-sm" data-row="3">Dział produkcji</li>
+			<li class="filter-row btn btn-default btn-sm" data-row="4">Dział testów</li>
+		</ul>
+		<ul class="column-headers">
+			<li class="header col-1">Zadania oczekujące <span class="clearfix task-amount"></span></li>
+			<li class="header col-2">Nowe zadania <span class="clearfix task-amount"></span></li>
+			<li class="header col-3">Zadania w trakcie wykonywania <span class="clearfix task-amount"></span></li>
+			<li class="header col-4">Zadania do weryfikacji <span class="clearfix task-amount"></span></li>
+			<li class="header col-5">Wykonane zadania <span class="clearfix task-amount"></span></li>
+		</ul>
+		<div class="departament-row row-1">
+			<div class="departament"><span data-row="1" class="glyphicon glyphicon-chevron-up"></span> Dział projektów <span class="task-amount"></span></div>
+			<ul class="columns">
+				<li class="column col-1"><ul class="tasks"></ul></li>
+				<li class="column col-2"><ul class="tasks"></ul></li>
+				<li class="column col-3"><ul class="tasks"></ul></li>
+				<li class="column col-4">
+					<ul class="tasks">
+						<li class="task">
+							<h3>Zadanie 2</h3>
+							<div class="dep">Zależy od: Zad. 1</div>
+							<div class="desc">Zaprojektowanie linii produkcyjnej</div>
+						</li>
+					</ul>
+				</li>
+				<li class="column col-5">
+					<ul class="tasks">
+						<li class="task">
+							<h3>Zadanie 1</h3>
+							<div class="dep">Podzadania: Podz. 1, Podz. 2</div>
+							<div class="desc">Zaprojektowanie kubka<div>
+						</li>
+						<li class="task subtask">
+							<h3>Podzadanie 1.1</h3>
+							<div class="dep">Zadanie gł.: Zad. 1</div>
+							<div class="desc">Zaprojektowanie obudowy<div>
+						</li>
+						<li class="task subtask">
+							<h3>Podzadanie 1.2</h3>
+							<div class="dep">Zadanie gł.: Zad. 1</div>
+							<div class="desc">Zaprojektowanie uchwytu<div>
+						</li>
+					</ul>
 				</li>
 			</ul>
-		</li>
-		<li class="column col-5">
-			<ul class="tasks">
-				<li class="task">
-					<h3>Zadanie 1</h3>
-					<div class="dep">Podzadania: Podz. 1, Podz. 2</div>
-					<div class="desc">Zaprojektowanie kubka<div>
+		</div>
+		<div class="departament-row row-2">
+			<div class="departament"><span data-row="2" class="glyphicon glyphicon-chevron-up"></span> Dział wdrożeń <span class="task-amount"></span></div>
+			<ul class="columns">
+				<li class="column col-1"><ul class="tasks"></ul></li>
+				<li class="column col-2"><ul class="tasks"></ul></li>
+				<li class="column col-3">
+					<ul class="tasks">
+						<li class="task">
+							<h3>Zadanie 3</h3>
+							<div class="dep">Zależy od: Zad. 2</div>
+							<div class="desc">Wdrożenie linii produkcyjnej</div>
+						</li>
+					</ul>
 				</li>
-				<li class="task subtask">
-					<h3>Podzadanie 1.1</h3>
-					<div class="dep">Zadanie gł.: Zad. 1</div>
-					<div class="desc">Zaprojektowanie obudowy<div>
-				</li>
-				<li class="task subtask">
-					<h3>Podzadanie 1.2</h3>
-					<div class="dep">Zadanie gł.: Zad. 1</div>
-					<div class="desc">Zaprojektowanie uchwytu<div>
-				</li>
+				<li class="column col-4"><ul class="tasks"></ul></li>
+				<li class="column col-5"><ul class="tasks"></ul></li>
 			</ul>
-		</li>
-	</ul>
-	<div class="row-spacer"></div>
-	<ul class="columns row-2">
-		<li class="column departament">Dział wdrażania<div class="btn btn-default btn-sm btn-block" data-row="2">Pokaż/Ukryj</div></li>
-		<li class="column col-1"><ul class="tasks"></ul></li>
-		<li class="column col-2"><ul class="tasks"></ul></li>
-		<li class="column col-3">
-			<ul class="tasks">
-				<li class="task">
-					<h3>Zadanie 3</h3>
-					<div class="dep">Zależy od: Zad. 2</div>
-					<div class="desc">Wdrożenie linii produkcyjnej</div>
+		</div>
+		<div class="departament-row row-3">
+			<div class="departament"><span data-row="3" class="glyphicon glyphicon-chevron-up"></span> Dział produkcji <span class="task-amount"></span></div>
+			<ul class="columns">
+				<li class="column col-1">
+					<ul class="tasks">
+						<li class="task">
+							<h3>Zadanie 4</h3>
+							<div class="dep">Zależy od: Zad. 3</div>
+							<div class="desc">Produkcja kubka</div>
+						</li>
+						<li class="task subtask">
+							<h3>Podzadanie 4.1</h3>
+							<div class="dep">Zadanie gł.: Zad. 4</div>
+							<div class="desc">Produkcja obudowy<div>
+						</li>
+						<li class="task subtask">
+							<h3>Podzadanie 4.2</h3>
+							<div class="dep">Zadanie gł.: Zad. 4<br>Zależy od: Podzad. 4.1</div>
+							<div class="desc">Produkcja i przytwierdzenie dna<div>
+						</li>
+						<li class="task subtask">
+							<h3>Podzadanie 4.3</h3>
+							<div class="dep">Zadanie gł.: Zad. 4<br>Zależy od: Podzad. 4.1</div>
+							<div class="desc">Produkcja i przytwierdzenie uchwytu<div>
+						</li>
+					</ul>
 				</li>
+				<li class="column col-2"><ul class="tasks"></ul></li>
+				<li class="column col-3"><ul class="tasks"></ul></li>
+				<li class="column col-4"><ul class="tasks"></ul></li>
+				<li class="column col-5"><ul class="tasks"></ul></li>
 			</ul>
-		</li>
-		<li class="column col-4"><ul class="tasks"></ul></li>
-		<li class="column col-5"><ul class="tasks"></ul></li>
-	</ul>
-	<div class="row-spacer"></div>
-	<ul class="columns row-3">
-		<li class="column departament">Dział produkcji<div class="btn btn-default btn-sm btn-block" data-row="3">Pokaż/Ukryj</div></li>
-		<li class="column col-1">
-			<ul class="tasks">
-				<li class="task">
-					<h3>Zadanie 4</h3>
-					<div class="dep">Zależy od: Zad. 3</div>
-					<div class="desc">Produkcja kubka</div>
+		</div>
+		<div class="departament-row row-4">
+			<div class="departament"><span data-row="4" class="glyphicon glyphicon-chevron-up"></span> Dział testów <span class="task-amount"></span></div>
+			<ul class="columns">
+				<li class="column col-1">
+					<ul class="tasks">
+						<li class="task">
+							<h3>Zadanie 5</h3>
+							<div class="dep">Zależy od: Zad. 4</div>
+							<div class="desc">Przetestowanie produktu</div>
+						</li>
+					</ul>
 				</li>
-				<li class="task subtask">
-					<h3>Podzadanie 3.1</h3>
-					<div class="dep">Zadanie gł.: Zad. 3</div>
-					<div class="desc">Produkcja obudowy<div>
-				</li>
-				<li class="task subtask">
-					<h3>Podzadanie 3.2</h3>
-					<div class="dep">Zadanie gł.: Zad. 3<br>Zależy od: Podzad. 3.1</div>
-					<div class="desc">Produkcja i przytwierdzenie dna<div>
-				</li>
-				<li class="task subtask">
-					<h3>Podzadanie 3.3</h3>
-					<div class="dep">Zadanie gł.: Zad. 3<br>Zależy od.: Podzad. 3.1</div>
-					<div class="desc">Produkcja i przytwierdzenie uchwytu<div>
-				</li>
+				<li class="column col-2"><ul class="tasks"></ul></li>
+				<li class="column col-3"><ul class="tasks"></ul></li>
+				<li class="column col-4"><ul class="tasks"></ul></li>
+				<li class="column col-5"><ul class="tasks"></ul></li>
 			</ul>
-		</li>
-		<li class="column col-2"><ul class="tasks"></ul></li>
-		<li class="column col-3"><ul class="tasks"></ul></li>
-		<li class="column col-4"><ul class="tasks"></ul></li>
-		<li class="column col-5"><ul class="tasks"></ul></li>
-	</ul>
-	<div class="row-spacer"></div>
-	<ul class="columns row-4">
-		<li class="column departament">Dział testów<div class="btn btn-default btn-sm btn-block" data-row="4">Pokaż/Ukryj</div></li>
-		<li class="column col-1">
-			<ul class="tasks">
-				<li class="task">
-					<h3>Zadanie 5</h3>
-					<div class="dep">Zależy od: Zad. 4</div>
-					<div class="desc">Przetestowanie produktu</div>
-				</li>
+		</div>
+		<div class="departament-row">
+			<ul class="column-footers">
+				<li class="footer col-1"></li>
+				<li class="footer col-2"></li>
+				<li class="footer col-3"></li>
+				<li class="footer col-4"></li>
+				<li class="footer col-5"></li>
 			</ul>
-		</li>
-		<li class="column col-2"><ul class="tasks"></ul></li>
-		<li class="column col-3"><ul class="tasks"></ul></li>
-		<li class="column col-4"><ul class="tasks"></ul></li>
-		<li class="column col-5"><ul class="tasks"></ul></li>
-	</ul>
-	<div class="row-spacer"></div>
-	<ul class="column-footers">
-		<li class="footer departament"></li>
-		<li class="footer"></li>
-		<li class="footer"></li>
-		<li class="footer"></li>
-		<li class="footer"></li>
-		<li class="footer"></li>
-	</ul>
+		</div>
+	</div>
 </div>
+
+<script type="text/template" id="login-template">
+	<div class="panel panel-default login-panel">
+		<div class="panel-heading">Panel logowania</div>
+		<div class="panel-body">
+			<form role="form">
+				<div class="form-group">
+					<label for="user-login">Login</label>
+					<input name="username" type="text" class="form-control" id="user-login" min="3" placeholder="Login">
+				</div>
+				<div class="form-group">
+					<label for="user-password">Hasło</label>
+					<input name="password" type="password" class="form-control" id="user-password" min="3" placeholder="Hasło">
+				</div>
+				<button type="submit" class="btn btn-default">Zaloguj</button>
+			</form>
+		</div>
+	</div>
+</script>
+
+<script>
+
+	$.fn.serializeObject = function() {
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name] !== undefined) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+	var LoginView = Backbone.View.extend({
+			el: '.page',
+			events: {
+        		'submit form': 'login'
+      		},
+	    	login: function (e) {
+	    		e.preventDefault();
+	    		var userDetails = $(e.currentTarget).serializeObject();
+	    		$.ajax(){
+	    			
+	    		}
+
+	    		console.log(userDetails);
+				/*var userDetails = $(ev.currentTarget).serializeObject();
+				var user = new User();
+				user.save(userDetails, {
+					success: function (user) {
+						router.navigate('', {trigger:true});
+					}
+				});*/
+				return false;
+			},
+			render: function() {
+				var template = _.template($('#login-template').html());
+				this.$el.html(template);
+			}
+		});
+
+	var Router = Backbone.Router.extend({
+		routes: {
+			'': 'login'
+		}
+	});
+
+	var loginView = new LoginView();
+
+	var router = new Router();
+	router.on('route:login', function() {
+		loginView.render();
+	});
+
+	Backbone.history.start();
+
+</script>
 
 <script>
 
 $(document).ready(function() {
 
-	var task;
+	var task, columns = $('.header').length;
 
 	$('.task').hide().slideDown('slow');
+	computeTaskAmount();
 
-	$('.header .btn').on('click', function(e){
-		$('.col-' + $(e.currentTarget).attr('data-col') + ' .task').slideToggle('slow');
+	$('.departament').on('click', function(e){
+		var target = $(e.currentTarget).find('.glyphicon');
+		$('.row-' + $(target).attr('data-row') + ' .task').slideToggle('slow');
 		$('.active').removeClass('active').removeClass('first-click');
-		task = null;
-	});
-
-	$('.column.departament .btn').on('click', function(e){
-		$('.row-' + $(e.currentTarget).attr('data-row') + ' .task').slideToggle('slow');
-		$('.active').removeClass('active').removeClass('first-click');
+		$(target).toggleClass('activated');
 		task = null;
 	});
     
@@ -162,18 +262,60 @@ $(document).ready(function() {
 		}
 	});
 
+	$('.filter-col').on('click', function(e){
+		var element = $('.col-' + $(e.currentTarget).attr('data-col'));
+		if(element.is(":visible")) {
+			if(columns > 1){
+				element.fadeToggle('fast');
+				task = null;
+				columns--;
+			}
+		} else {
+			element.fadeToggle('fast');
+			columns++;
+		}
+	});
+
+	$('.filter-row').on('click', function(e){
+		$('.departament-row.row-' + $(e.currentTarget).attr('data-row') + ' .departament').click();
+	});
+
 	$('.column').on('click', function(e){
 		if(task){
 			if(!task.hasClass('first-click')){
 				task.slideUp('slow', function(){
 					$(e.currentTarget).find('.tasks').append(task);
 					task.slideDown('slow');
+					computeTaskAmount();
 				});
 			} else {
 				task.removeClass('first-click');
 			}
 		}
 	});
+
+	function computeTaskAmount() {
+		$.each($('.departament-row'), function(index, object) {
+			var tasks = $(object).find('.task').length;
+			$(object).find('.departament .task-amount').html('('+ tasks + getTasksString(tasks) +')');
+		});
+
+		$.each($('.column-headers .header'), function(index, object) {
+			var tasks = $('.col-' + (index + 1) +' .task').length;
+			$(object).find('.task-amount').html('('+ tasks + getTasksString(tasks) +')');
+		});
+
+	}
+
+	function getTasksString(amount){
+		switch(amount){
+			default: return ' zadań';
+			case 1: return ' zadanie';
+			case 2:
+			case 3:
+			case 4: return ' zadania';
+		}
+	}
 
 });
 

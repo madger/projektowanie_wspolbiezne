@@ -1,0 +1,28 @@
+Temat projektu: Opracowanie architektury i implementacjia zaproponowanych technik w kontekœcie budowy systemu wspomagaj¹cego pracê grup wirtualnych
+
+
+-----------------------------
+
+Minimalne wymagania:
+- Modu³ zarz¹dzania cz³onkami  i grupami projektowymi
+- Modu³ do zarz¹dzania projektami- Modu³ do asynchronicznej wymiany informacji
+
+
+Menager
+- dodawanie u¿ytkowników
+- dzia³ów projektowych
+- widzi wszystkie dzia³y,u¿ytkowników
+
+Zwyk³y uzytkownik
+- dodawanie zadan
+-
+
+Ogólnie czego brakuje
+- zarz¹dzania dzia³ami, zadaniami, uzytkownikami
+- wysy³anie odpbieranie wiadomoœci
+- statystyki
+- komentarze pod zadaniami
+
+jak bedzie czas:
+- wyszukiwanie tasków po nazwie
+
